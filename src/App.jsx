@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Form from "./components/Form";
 import Header from "./components/Header";
-
-
+import Results from "./components/Results";
 
 function App() {
   const [form, setForm] = useState({
@@ -12,21 +11,23 @@ function App() {
     duration: 10,
   });
 
-  function handleChange(key,newValue){
-    setForm(prevForm=>{
-      return{
-        ...prevForm,
-        [key]:newValue,
-      }
-    })
+  const inputIsValid = form.duration >= 1;
 
+  function handleChange(key, newValue) {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        [key]: +newValue,
+      };
+    });
   }
-  console.log(form)
 
   return (
     <>
       <Header />
-      <Form form={form} handleChange={handleChange}/>
+      <Form form={form} handleChange={handleChange} />
+      {!inputIsValid && <p className="center">Please Enter a duration greater than 0</p>}
+      {inputIsValid && <Results form={form}/>}
     </>
   );
 }
